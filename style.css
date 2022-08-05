@@ -48,11 +48,11 @@ body {
     box-shadow: none;
 }
 .header button:hover {
-    background-color: #afafaf;
+    filter: brightness(70%);
     transition: all 0.1s ease-in-out ;
 }
 .header button:active {
-    background-color: #7a7a7a;
+    filter: brightness(50%);
 }
 
 
@@ -73,9 +73,47 @@ body {
     content: '+ ';
 }
 .addBook button:hover {
-    color: #afafaf;
+    filter: brightness(70%);
     transition: all 0.1s ease-in-out ;
 }
 .addBook button:active {
-    color: #7a7a7a;
+    filter: brightness(50%);
+}
+
+
+.books {
+    justify-content: center;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, 300px);
+    grid-auto-rows: 160px;
+    margin: 30px 30px;
+    gap: 30px;
+}
+.book {
+    display: flex;
+    flex-flow: column;
+    background-color: var(--headBg-color);
+    padding: 20px;
+    border-radius: 10px;
+}
+.buttons {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    gap: 20px;
+}
+.buttons * {
+    height: 30px;
+    flex: 1 1 120px;
+    color: var(--background-color);
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+.buttons *:hover {
+    outline: 2px solid wheat;
+    outline-offset: 3px;
+    filter: brightness(80%);
+    transition: 0.1s all ease-in-out;
 }
