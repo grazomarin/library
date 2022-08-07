@@ -13,8 +13,19 @@
         <button>Sign In</button>
     </div>
     <div class="addBook">
-        <button>Add Book</button>
+        <button type="button">Add Book</button>
     </div>
+    <div class="modal" id="modal">
+        <form id="form"> 
+            <div class="closeBox"><div>About The Book</div><button data-close-button="" class="close-button" type="button">&times;</button></div>
+            <input type="text" name="name" id="name" placeholder="Title">
+            <input type="text" name="author" id="author" placeholder="Author">
+            <input type="number" name="pages" id="pages" placeholder="Pages">
+            <div class="readBox"><label for="read">Have you read it?</label> <input type="checkbox" name="read" id="read"></div>
+            <button type="button" class="submit">Submit</button>
+        </form>
+    </div>
+    <div id="overlay"></div>
     <div class="books">
         <div class="book">
             <div>Book Name: Millionaire Fastlane</div>

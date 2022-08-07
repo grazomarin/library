@@ -2,6 +2,7 @@
     --background-color: #121212;
     --headBg-color: #222;
     --font-color: #e3e3e3;
+    --submit-color:rgb(145, 255, 145);
 }
 
 @font-face {
@@ -111,9 +112,88 @@ body {
     border: none;
     cursor: pointer;
 }
-.buttons *:hover {
-    outline: 2px solid wheat;
+.buttons *:hover, .submit:hover {
+    outline: 2px solid var(--font-color);
     outline-offset: 3px;
     filter: brightness(80%);
     transition: 0.1s all ease-in-out;
+}
+
+.modal {
+    position: fixed;
+    border-radius: 10px;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 0.2s all ease-in-out;
+    background-color: var(--headBg-color);
+    padding: 12px 22px 18px;
+    z-index: 10;
+}
+.modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+form {
+    display: flex;
+    flex-flow: column nowrap;
+}
+.submit, .closeBox {
+    margin-bottom: 10px;
+}
+.closeBox {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+}
+input[type='text'], #pages{
+    display: block;
+    border-radius: 8px;
+    border: none;
+    padding: 3px 10px;
+    color: var(--headBg-color);
+}
+input[type='text'], #pages, .readBox {
+    margin-bottom: 10px;
+}
+.readBox{
+    display: flex;
+    gap: 10px;
+}
+#read {
+    margin: 0;
+}
+.close-button{
+    outline: none;
+    border: none;
+    background: none;
+    color: var(--font-color);
+    font-size: 1.5rem;
+}
+.submit {
+    border-radius: 8px;
+    border: none;
+    padding: 3px 12px;
+    color: var(--headBg-color);
+    background-color: var(--submit-color);
+    align-self: center;    
+    width: 120px;
+}
+.submit:hover {
+    outline: 2px solid var(--submit-color);
+}
+#overlay {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transition: 0.2s all ease-in-out;
+}
+#overlay.active {
+    pointer-events: all;
+    opacity: 1;
 }

@@ -1,24 +1,44 @@
 const addBook = document.querySelector('.addBook')
 const library = document.querySelector('.books') 
+const modal = document.getElementById('modal')
+const closeModalButton = document.querySelector('[data-close-button]')
+const overlay = document.getElementById('overlay')
+const submitBtn = document.querySelector('.submit')
 
-//let myLibrary = []
+let myLibrary = []
 
 addBook.addEventListener('click', () => {
-    let name = prompt('name?', '')
-    let author = prompt('author?', '')
-    let pages = validatePages()
-    //let book = new Book(name, author, pages)
-    //myLibrary.push(book)
-    addBookToLibrary(name, author, pages);
+    openModal()
+    submitBtn.addEventListener('click', () => {
+        let name = document.getElementById('name').value
+        let author = document.getElementById('author').value
+        let pages = document.getElementById('pages').value
+        let read = document.getElementById('read').value
+        let book = new Book(name, author, pages, read)
+        myLibrary.push(book)
+        addBookToLibrary(name, author, pages, read, book);
+        closeModal(modal)
+        clearForm()
+    })
 }) 
 
-/* function Book(name, author, pages) {
+closeModalButton.addEventListener('click', () => {
+    closeModal(modal);
+})
+
+overlay.addEventListener('click', () => {
+    closeModal(modal);
+})
+
+
+function Book(name, author, pages, read) {
     this.name = name;
     this.author = author;
     this.pages = pages;
-} */
+    this.read = read;
+}
 
-function addBookToLibrary (name, author, pages) {
+function addBookToLibrary (name, author, pages, read, book) {
     let containerDiv = generateBookTemplate();
     const bookName = containerDiv.querySelector(':nth-child(1)')
     const bookAuthor = containerDiv.querySelector(':nth-child(2)')
@@ -34,6 +54,8 @@ function addBookToLibrary (name, author, pages) {
 
     btnRmv.addEventListener('click', () => {
         containerDiv.remove()
+        let index = myLibrary.indexOf(book)
+        myLibrary.splice(index, 1)
     })
 }
 
@@ -54,11 +76,24 @@ function generateBookTemplate() {
     return containerDiv;
 }
 
-function validatePages() {
-    let pageNum = Number(prompt('pages?', ''));
-    return (pageNum !== NaN) ? pageNum : prompt('please enter a valid number!', '');
+function openModal () {
+    modal.classList.add('active')
+    overlay.classList.add('active')
 }
 
-/* when pressing add book we want to ask user for name and author then that 
-name and authour are going to be added to our book library from which the div
-is going to be generated with the book contents*/
+function closeModal (modal) {
+    modal.classList.remove('active')
+    overlay.classList.remove('active')
+}
+
+function clearForm(name, author, pages, read) {
+    name.value = undefined;
+    author.value = undefined;
+    pages.value = undefined;
+    read.value = off;
+}
+
+
+//fix the wrapping issue when text is too long
+// make read status work
+// the array is for future implementation of the database
