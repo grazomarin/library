@@ -20,22 +20,13 @@
             <div class="closeBox"><div>About The Book</div><button data-close-button="" class="close-button" type="button">&times;</button></div>
             <input type="text" name="name" id="name" placeholder="Title">
             <input type="text" name="author" id="author" placeholder="Author">
-            <input type="number" name="pages" id="pages" placeholder="Pages">
-            <div class="readBox"><label for="read">Have you read it?</label> <input type="checkbox" name="read" id="read"></div>
-            <button type="button" class="submit">Submit</button>
+            <input type="number" name="pages" id="pages" placeholder="Pages" min="1">
+            <div class="readBox"><label for="read">Have you read it?</label> <input type="checkbox" name="read" id="read" value="yes"></div>
+            <button type="reset" class="submit">Submit</button>
         </form>
     </div>
     <div id="overlay"></div>
     <div class="books">
-        <div class="book">
-            <div>Book Name: Millionaire Fastlane</div>
-            <div>Author Name: MJ Demarco</div>
-            <div>Pages: 300</div>
-            <div class="buttons">
-                <button class="remove">Remove</button>
-                <button class="readStatus">Read</button>
-            </div>
-        </div>
     </div>
 </body>
 </html>

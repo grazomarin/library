@@ -2,7 +2,8 @@
     --background-color: #121212;
     --headBg-color: #222;
     --font-color: #e3e3e3;
-    --submit-color:rgb(145, 255, 145);
+    --green:rgb(145, 255, 145);
+    --red: rgb(255, 90, 90);
 }
 
 @font-face {
@@ -175,12 +176,12 @@ input[type='text'], #pages, .readBox {
     border: none;
     padding: 3px 12px;
     color: var(--headBg-color);
-    background-color: var(--submit-color);
+    background-color: var(--green);
     align-self: center;    
     width: 120px;
 }
 .submit:hover {
-    outline: 2px solid var(--submit-color);
+    outline: 2px solid var(--green);
 }
 #overlay {
     position: fixed;
@@ -196,4 +197,18 @@ input[type='text'], #pages, .readBox {
 #overlay.active {
     pointer-events: all;
     opacity: 1;
+}
+
+.read {
+    background-color: var(--green);
+}
+.read:hover {
+    outline: 2px solid var(--green);
+}
+.notRead {
+    background-color: var(--red);
+}
+.notRead:hover {
+    outline: 2px solid var(--red);
+
 }
