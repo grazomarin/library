@@ -17,7 +17,6 @@ submitBtn.addEventListener('click', () => {
     let author = document.getElementById('author').value
     let pages = document.getElementById('pages').value
     let read = document.getElementById('read').checked
-    console.log(read)
     let book = new Book(name, author, pages, read)
     myLibrary.push(book)
     addBookToLibrary(name, author, pages, read, book);
@@ -56,16 +55,16 @@ function addBookToLibrary (name, author, pages, read, book) {
 
     assignRead(read, btnStatus)
     btnStatus.addEventListener('click', () => {
-        if (read === true) {
+        if (book.read === true) {
             btnStatus.classList.toggle('notRead');
             btnStatus.classList.toggle('read');
             btnStatus.textContent = 'Not Read'
-            read = false
+            book.read = false
         } else {
             btnStatus.classList.toggle('read');
             btnStatus.classList.toggle('notRead');
             btnStatus.textContent = 'Read';
-            read = true
+            book.read = true
         }
     });
 
