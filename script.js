@@ -1,116 +1,127 @@
-const addBook = document.querySelector('.addBook')
-const library = document.querySelector('.books') 
-const modal = document.getElementById('modal')
-const closeModalButton = document.querySelector('[data-close-button]')
-const overlay = document.getElementById('overlay')
-const submitBtn = document.querySelector('.submit')
-const form = document.getElementById('form')
+const addBookElem = document.querySelector('.addBook');
+const form = document.getElementById('form');
+const overlay = document.getElementById('overlay');
+const main = document.querySelector('.books');
+const closeFormBtn = document.querySelector('.closeButton');
+const submitBtn = document.querySelector('.submit');
+const readCont = document.getElementById('read');
+const readCheckbox = document.querySelector('.check');
 
-let myLibrary = []
+const Library = (() => {
+	const myLibrary = [];
 
-addBook.addEventListener('click', () => {
-    openModal()
-}) 
+	const addBook = (book) => {
+		myLibrary.push(book);
+	};
+
+	const removeBook = (ID) => {
+		myLibrary.find((book) => {
+			if (book.ID === ID) myLibrary.splice(myLibrary.indexOf(book), 1);
+		});
+	};
+
+	const changeReadStatus = (ID) => {
+		myLibrary.find((book) => {
+			if (book.ID === ID) book.read = !book.read;
+		});
+	};
+
+	return {
+		myLibrary,
+		addBook,
+		removeBook,
+		changeReadStatus,
+	};
+})();
+
+const bookFactory = (nameVal, authorVal, pagesVal, readVal) => {
+	const container = document.createElement('div');
+	const nameElem = document.createElement('div');
+	const authorElem = document.createElement('div');
+	const pagesElem = document.createElement('div');
+	const buttonsCont = document.createElement('div');
+	const removeBtn = document.createElement('button');
+	const readBtn = document.createElement('button');
+
+	// eslint-disable-next-line no-shadow
+	const name = nameVal;
+	const author = authorVal;
+	const pages = pagesVal;
+	let read = readVal;
+
+	const ID = Math.random();
+
+	const remove = () => {
+		container.remove();
+		Library.removeBook(ID);
+	};
+
+	const changeReadStatus = () => {
+		read = !read;
+		readBtn.classList = read ? 'read' : 'notRead';
+		readBtn.textContent = read ? 'Read' : 'Not Read';
+		Library.changeReadStatus(ID);
+	};
+
+	const initEventListeners = () => {
+		removeBtn.addEventListener('click', remove);
+		readBtn.addEventListener('click', changeReadStatus);
+	};
+
+	const showBook = () => {
+		container.classList = 'book';
+		buttonsCont.classList = 'buttons';
+		readBtn.classList = read ? 'read' : 'notRead';
+
+		nameElem.textContent = `Book Name: ${name}`;
+		authorElem.textContent = `Author Name: ${author}`;
+		pagesElem.textContent = `Pages: ${pages}`;
+		removeBtn.textContent = 'Remove';
+		readBtn.textContent = read ? 'Read' : 'Not Read';
+
+		initEventListeners();
+
+		buttonsCont.append(removeBtn, readBtn);
+		container.append(nameElem, authorElem, pagesElem, buttonsCont);
+		main.append(container);
+	};
+
+	return {
+		name,
+		author,
+		pages,
+		read,
+		ID,
+		showBook,
+	};
+};
+
+function toggleReadStatus() {
+	readCheckbox.classList.toggle('checked');
+	readCheckbox.value = !readCheckbox.value;
+}
 
 submitBtn.addEventListener('click', () => {
-    let name = document.getElementById('name').value
-    let author = document.getElementById('author').value
-    let pages = document.getElementById('pages').value
-    let read = document.getElementById('read').checked
-    let book = new Book(name, author, pages, read)
-    myLibrary.push(book)
-    addBookToLibrary(name, author, pages, read, book);
-    closeModal(modal)
-})
+	const nameVal = document.getElementById('name').value || 'Undefined';
+	const authorVal = document.getElementById('author').value || 'Undefined';
+	const pagesVal = document.getElementById('pages').value || 'Undefined';
+	const readVal = readCheckbox.value;
 
+	const book = bookFactory(nameVal, authorVal, pagesVal, readVal);
+	book.showBook();
+	Library.addBook(book);
 
-closeModalButton.addEventListener('click', () => {
-    closeModal(modal);
-})
+	toggleModal();
+});
 
-overlay.addEventListener('click', () => {
-    closeModal(modal);
-})
+closeFormBtn.addEventListener('click', toggleModal);
+overlay.addEventListener('click', toggleModal);
+addBookElem.addEventListener('click', toggleModal);
+readCont.addEventListener('click', toggleReadStatus);
 
-
-function Book(name, author, pages, read) {
-    this.name = name;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+function toggleModal() {
+	form.classList.toggle('active');
+	overlay.classList.toggle('active');
 }
 
-function addBookToLibrary (name, author, pages, read, book) {
-    let containerDiv = generateBookTemplate();
-    const bookName = containerDiv.querySelector(':nth-child(1)')
-    const bookAuthor = containerDiv.querySelector(':nth-child(2)')
-    const bookPages = containerDiv.querySelector(':nth-child(3)')
-    const btnRmv = containerDiv.querySelector('.remove')
-    let btnStatus = containerDiv.querySelector('.readStatus')
-
-    bookName.textContent = `Book Name: ${name}`
-    bookAuthor.textContent = `Author Name: ${author}`
-    bookPages.textContent = `Pages: ${pages}`
-    btnRmv.textContent = 'Remove'
-
-    assignRead(read, btnStatus)
-    btnStatus.addEventListener('click', () => {
-        if (book.read === true) {
-            btnStatus.classList.toggle('notRead');
-            btnStatus.classList.toggle('read');
-            btnStatus.textContent = 'Not Read'
-            book.read = false
-        } else {
-            btnStatus.classList.toggle('read');
-            btnStatus.classList.toggle('notRead');
-            btnStatus.textContent = 'Read';
-            book.read = true
-        }
-    });
-
-    btnRmv.addEventListener('click', () => {
-        containerDiv.remove()
-        let index = myLibrary.indexOf(book)
-        myLibrary.splice(index, 1)
-    })
-}
-
-function assignRead(read, btn) {
-    if (read === true) {
-        btn.classList.toggle('read');
-        btn.textContent = 'Read'
-    } else {
-        btn.classList.toggle('notRead');
-        btn.textContent = 'Not Read';
-    }
-}
-
-function generateBookTemplate() {
-    let containerDiv = document.createElement('div');
-    library.appendChild(containerDiv);
-    containerDiv.classList.add('book');
-
-    containerDiv.appendChild(document.createElement('div'));
-    containerDiv.appendChild(document.createElement('div'));
-    containerDiv.appendChild(document.createElement('div'));
-
-    let buttons = document.createElement('div')
-    containerDiv.appendChild(buttons).classList.add('buttons');
-    buttons.appendChild(document.createElement('button')).classList.add('remove')
-    buttons.appendChild(document.createElement('button')).classList.add('readStatus')
-
-    return containerDiv;
-}
-
-function openModal () {
-    modal.classList.add('active')
-    overlay.classList.add('active')
-}
-
-function closeModal (modal) {
-    modal.classList.remove('active')
-    overlay.classList.remove('active')
-}
-
-
-//fix the wrapping issue when text is too long
+// fix the wrapping issue when text is too long
