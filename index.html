@@ -23,7 +23,10 @@
 				<div>About The Book</div>
 				<button class="closeButton" type="button">&times;</button>
 			</div>
-			<input type="text" name="name" id="name" placeholder="Title" />
+			<div class="name-cont">
+				<input type="text" name="name" id="name" placeholder="Title" required />
+				<div for="name" class="name-error">book name is required</div>
+			</div>
 			<input type="text" name="author" id="author" placeholder="Author" />
 			<input type="number" name="pages" id="pages" placeholder="Pages" min="1" />
 			<div class="readCont">
@@ -32,7 +35,7 @@
 					<img class="check" src="./images/check.svg" alt="" value="false" />
 				</div>
 			</div>
-			<button type="reset" class="submit">Submit</button>
+			<button type="button" class="submit">Submit</button>
 		</form>
 		<!-- form ends -->
 		<div id="overlay"></div>

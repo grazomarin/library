@@ -121,7 +121,7 @@ body {
 	display: grid;
 	grid-auto-flow: row;
 	grid-auto-rows: 1fr;
-	gap: 12px;
+	gap: 15px;
 	align-items: center;
 	justify-content: stretch;
 	position: absolute;
@@ -156,9 +156,10 @@ body {
 	border-radius: 8px;
 	border: none;
 	padding: 3px 10px;
-	height: 80%;
+	height: 25px;
 	color: var(--headBg-color);
 	border: none;
+	width: 100%;
 }
 
 #author:focus,
@@ -249,4 +250,17 @@ body {
 }
 .notRead:hover {
 	outline: 2px solid var(--red);
+}
+
+.name-cont {
+	position: relative;
+}
+
+.name-error {
+	display: none;
+	color: red;
+	font-size: 0.8rem;
+	position: absolute;
+	height: 0px;
+	bottom: -1px;
 }

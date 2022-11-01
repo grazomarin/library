@@ -1,10 +1,13 @@
-const addBookElem = document.querySelector('.addBook');
 const form = document.getElementById('form');
 const overlay = document.getElementById('overlay');
+const nameInput = document.getElementById('name');
+const authorInput = document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+const readCont = document.getElementById('read');
+const addBookElem = document.querySelector('.addBook');
 const main = document.querySelector('.books');
 const closeFormBtn = document.querySelector('.closeButton');
 const submitBtn = document.querySelector('.submit');
-const readCont = document.getElementById('read');
 const readCheckbox = document.querySelector('.check');
 
 const Library = (() => {
@@ -101,23 +104,58 @@ function toggleReadStatus() {
 	readCheckbox.value = !readCheckbox.value;
 }
 
+function checkValidity(element) {
+	if (element.value.length === 0) {
+		document.querySelector(`.${element.name}-error`).style.display = 'block';
+		return false;
+	}
+	return true;
+}
+
+function resetValidityMessages() {
+	document.querySelectorAll('[class$="-error"]').forEach((message) => {
+		message.style.display = 'none';
+	});
+}
+
+function resetForm() {
+	nameInput.value = '';
+	pagesInput.value = '';
+	authorInput.value = '';
+	readCheckbox.classList.remove('checked');
+	readCheckbox.value = false;
+}
+
 submitBtn.addEventListener('click', () => {
-	const nameVal = document.getElementById('name').value || 'Undefined';
-	const authorVal = document.getElementById('author').value || 'Undefined';
-	const pagesVal = document.getElementById('pages').value || 'Undefined';
-	const readVal = readCheckbox.value;
+	if (checkValidity(nameInput)) {
+		const nameVal = nameInput.value || 'Undefined';
+		const authorVal = authorInput.value || 'Undefined';
+		const pagesVal = pagesInput.value || 'Undefined';
+		const readVal = readCheckbox.value;
 
-	const book = bookFactory(nameVal, authorVal, pagesVal, readVal);
-	book.showBook();
-	Library.addBook(book);
+		const book = bookFactory(nameVal, authorVal, pagesVal, readVal);
+		book.showBook();
+		Library.addBook(book);
 
-	toggleModal();
+		toggleModal();
+	}
 });
 
-closeFormBtn.addEventListener('click', toggleModal);
-overlay.addEventListener('click', toggleModal);
+closeFormBtn.addEventListener('click', () => {
+	toggleModal();
+	resetValidityMessages();
+	resetForm();
+});
+overlay.addEventListener('click', () => {
+	toggleModal();
+	resetValidityMessages();
+	resetForm();
+});
 addBookElem.addEventListener('click', toggleModal);
 readCont.addEventListener('click', toggleReadStatus);
+nameInput.addEventListener('input', () => {
+	checkValidity(nameInput);
+});
 
 function toggleModal() {
 	form.classList.toggle('active');
